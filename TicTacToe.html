@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./css/styles.css">
+</head>
+<body>
+    <main>
+        <section id="tutorial_TicTacToe" class="tutorial_TicTacToe visibilityON">
+            <h2>How to play</h2>
+            <figure id="tutorial_TicTacToe__figure1" class="tutorial__figure visibilityON">
+                <img src="./img/scissors.png" alt="picture of tictactoe" width="100px" height="100px">
+                <figcaption>Choose if you want to go first, second, or decide randomly</figcaption>
+            </figure>    
+            <figure id="tutorial_TicTacToe__figure2" class="tutorial__figure visibilityOFF">
+                <img src="" alt="picture of tictactoe">
+                <figcaption>Click on an empty spot to mark your choice</figcaption>
+            </figure>    
+            <figure id="tutorial_TicTacToe__figure3" class="tutorial__figure visibilityOFF">
+                <img src="" alt="picture of tictactoe">
+                <figcaption>Connect 3 to win a point</figcaption>
+            </figure>                
+            <figure id="tutorial_TicTacToe__figure4" class="tutorial__figure visibilityOFF">
+                <img src="" alt="picture of tictactoe">
+                <figcaption>The first to get 3 points wins</figcaption>
+            </figure>
+            <p>Left</p>
+            <p>Right</p>
+        </section>    
+        <section id="scoreboard_TicTacToe" class="scoreboard_TicTacToe visibilityOFF">
+            <table class="visibilityOFF">
+                <tr>
+                    <th>Player</th>
+                    <th>CPU</th>
+                </tr>
+                <tr>
+                    <td>0</td>
+                    <td>0</td>
+                </tr>
+            </table>
+        </section> 
+        <section id="gameboard_TicTacToe" class="gameboard_TicTacToe visibilityOFF">   
+            <table class="visibilityOFF">
+                <tr>
+                    <td class="top_td left_td"></td>
+                    <td class="top_td"></td>
+                    <td class="top_td right_td"></td>
+                </tr>
+                <tr>
+                    <td class="left_td"></td>
+                    <td></td>
+                    <td class="right_td"></td>
+                </tr>
+                <tr>
+                    <td class="bottom_td left_td"></td>
+                    <td class="bottom_td"></td>
+                    <td class="bottom_td right_td"></td>
+                </tr>
+            </table>
+        </section>
+    </main>
+</body>
+</html>

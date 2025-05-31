@@ -1,0 +1,110 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+html {
+    font-size: 20px;
+}
+
+body {
+    min-height: 100vh;
+    overflow: hidden;
+}
+
+img {
+    display: block;
+    margin: auto;
+}
+
+.navbar {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 1rem;
+}
+
+/*.visibilityOFF {
+    display: none;
+}*/
+
+a {
+    text-decoration: none;
+    color: black;
+}
+
+a:hover,
+a:focus {
+    color: purple;
+}
+
+a:active {
+    color: grey;
+}
+
+main {
+    margin-top: 3rem;
+}
+
+h2 {
+    text-align: center;
+}
+
+.section_TicTacToe {
+    display: flex;
+    justify-content: center;
+}
+
+.tutorial__figure {
+    text-align: center;
+}
+
+.gameboard_TicTacToe {
+    display: flex;
+    justify-content: center;
+    padding-top: 5em;
+}
+
+.scoreboard_TicTacToe {
+    display: flex;
+    justify-content: center;
+}
+
+.scoreboard_TicTacToe table, 
+.scoreboard_TicTacToe th,
+.scoreboard_TicTacToe td {
+    border: 1px solid black;
+    height: 50px;
+    min-width: 100px;
+}
+
+.gameboard_TicTacToe table,
+.gameboard_TicTacToe th,
+.gameboard_TicTacToe td {
+    height: 100px;
+    min-width: 100px;
+}
+
+table, th, td {
+    border-collapse: collapse;
+}
+
+td {
+    text-align: center;
+}
+
+.top_td {
+    border-bottom: 1px solid black
+}
+
+.bottom_td {
+    border-top: 1px solid black
+}
+
+.left_td {
+    border-right: 1px solid black;
+}
+
+.right_td {
+    border-left: 1px solid black;
+}
