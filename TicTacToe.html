@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="./css/styles.css">
+    <script src="./js/tictactoe.js" defer></script>
 </head>
 <body>
     <main>
@@ -40,23 +41,24 @@
                     <td>0</td>
                 </tr>
             </table>
-        </section> 
-        <section id="gameboard_TicTacToe" class="gameboard_TicTacToe visibilityOFF">   
+        </section>
+        <h3 id="winMessage"></h3>
+        <section id="gameboard_TicTacToe" class="gameboard_TicTacToe visibilityOFF"> 
             <table class="visibilityOFF">
                 <tr>
-                    <td class="top_td left_td"></td>
-                    <td class="top_td"></td>
-                    <td class="top_td right_td"></td>
+                    <td id="top_left_cell" class="top_td left_td cell"></td>
+                    <td id="top_middle_cell" class="top_td td cell"></td>
+                    <td id="top_right_cell" class="top_td right_td td cell"></td>
                 </tr>
                 <tr>
-                    <td class="left_td"></td>
-                    <td></td>
-                    <td class="right_td"></td>
+                    <td id="middle_left_cell" class="left_td cell"></td>
+                    <td id="center_cell" class="cell"></td>
+                    <td id="middle_right_cell" class="right_td cell"></td>
                 </tr>
                 <tr>
-                    <td class="bottom_td left_td"></td>
-                    <td class="bottom_td"></td>
-                    <td class="bottom_td right_td"></td>
+                    <td id="bottom_left_cell" class="bottom_td left_td cell"></td>
+                    <td id="bottom_middle_cell" class="bottom_td cell"></td>
+                    <td id="bottom_right_cell" class="bottom_td right_td cell"></td>
                 </tr>
             </table>
         </section>
