@@ -14,17 +14,37 @@ console.log(cell);
 let turnCount = 1;
 
 
-const initApp = () => {
-    playerOrder();
-    gameFlow();
+const initApp = async () => {
+    const order = await playerOrder();
+    console.log(order);
+    gameFlow(order);
     /*listeners();*/
 }
 
 const playerOrder = () => {
-    // if go first player is X
-    // if go second player is O
-    // if random choose randomly
+    return new Promise((resolved) => {
+        const order = document.querySelectorAll(".btn_order");
+        console.log(order);
+        order.forEach(element => {
+            element.addEventListener("click", (event) => {
+            let player;
+            let cpu;
+            if (element.textContent === "Go first") {
+                player = 1;
+                cpu = 2;
+            } else if (element.textContent === "Go second") {
+                player = 2;
+                cpu = 1;
+            } else {
+                player = Math.floor(Math.random() * (2 - 0) + 1);
+                cpu = player > 1 ? 1 : 2;
+            }
+            resolved ([player, cpu]);
+        });
+    })
+})
 }
+
 
 const gameFlow = () => {
     cell.forEach(element => {
@@ -176,11 +196,4 @@ const resetGame = () => {
 }*/
     
 initApp();
-
-
-
-
-
-
-
 
