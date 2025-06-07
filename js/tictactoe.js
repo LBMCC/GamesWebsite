@@ -9,16 +9,19 @@ const combinations = [
     [2, 4, 6],
 ];
 
-const cell = document.querySelectorAll(".cell")
+const cell = document.querySelectorAll(".cell");
+let isPlayerTurn;
+let playerSymbol = "";
+let cpuSymbol = "";
 console.log(cell);
 let turnCount = 1;
+let turnOrder;
 
 
 const initApp = async () => {
-    const order = await playerOrder();
-    console.log(order);
-    gameFlow(order);
-    /*listeners();*/
+    turnOrder = await playerOrder();
+    console.log();
+    gameFlow();
 }
 
 const playerOrder = () => {
@@ -31,15 +34,15 @@ const playerOrder = () => {
             let cpu;
             if (element.textContent === "Go first") {
                 player = 1;
-                cpu = 2;
+                //cpu = 2;
             } else if (element.textContent === "Go second") {
                 player = 2;
-                cpu = 1;
+                //cpu = 1;
             } else {
                 player = Math.floor(Math.random() * (2 - 0) + 1);
-                cpu = player > 1 ? 1 : 2;
+                //cpu = player > 1 ? 1 : 2;
             }
-            resolved ([player, cpu]);
+            resolved (player);
         });
     })
 })
@@ -47,45 +50,87 @@ const playerOrder = () => {
 
 
 const gameFlow = () => {
+    isPlayerTurn = turnOrder === 1 ? true : false;
+    playerSymbol = turnOrder === 1 ? "X" : "O";
+    cpuSymbol = turnOrder === 2 ? "X" : "O";
+    if (!isPlayerTurn){
+            setTimeout (
+                cpuTurn, 500
+            )
+        }
     cell.forEach(element => {
-        element.addEventListener("click", (event) => {
-            if (element.textContent === "") {
-                if (turnCount % 2 === 1) {
-                    element.textContent = "X"
-                } else {
-                    element.textContent = "O";
-                }
-                turnCount++;
-            }
-            checkWin();
-        })
+        element.removeEventListener("click", handleClick);
+        element.addEventListener("click", handleClick);
+        function handleClick(event) {
+            if (element.textContent === "" && isPlayerTurn) {
+                    element.textContent = playerSymbol;
+                    checkWin();
+                    isPlayerTurn = false;
+                    setTimeout (
+                        cpuTurn, 1000
+                    )
+            } else {  
+                return;  //return here only exits out of that single click, it doesn't exit outside of the entire gameFlow function
+            }  
+        }
     });
 }
 
+const cpuTurn = () => {
+    const emptyCells = Array.from(cell).filter((element) => element.textContent === "");  //Array.from creates an array instance from an iterable or array-like object
+    console.log(emptyCells);
+    if (emptyCells.length === 0) {
+        resetGame();
+        return;
+    } else {
+        const randomIndex = Math.floor(Math.random() * emptyCells.length);
+        const chosenCell = emptyCells[randomIndex];
+        chosenCell.textContent = cpuSymbol;
+        checkWin();
+        isPlayerTurn = true;
+    }
+}
+
 const checkWin = () => {
-    return combinations.some(([a, b, c]) => {
+    return combinations.some(([a, b, c]) => {  //Array.some instances tests whether at least one of its elements passes a test implemented by the function
         if (cell[a].textContent === "X" &&
             cell[b].textContent === "X" &&
             cell[c].textContent === "X") {
-                const winMessage = document.getElementById("winMessage");
-                winMessage.textContent = "X WINS!";
-                // if player add point
-                // if cpu add point
+                if (isPlayerTurn) {
+                    playerWin();
+                } else {
+                    cpuWin();
+                }
                 resetGame();
-                return true;
+                return true;  //returns true if it finds the element
             }
         if (cell[a].textContent === "O" &&
             cell[b].textContent === "O" &&
             cell[c].textContent === "O") {
-                const winMessage = document.getElementById("winMessage");
-                winMessage.textContent = "O WINS!";
-                // if player add point
-                // if cpu add point
+                if (isPlayerTurn) {
+                    playerWin();
+                } else {
+                    cpuWin();
+                }
                 resetGame();
-                return true;
+                return true;  //returns true if it finds the element
             }
-        return false;
+        return false;  //returns false if it doesn't
     })
+}
+
+const playerWin = () => {
+    const winMessage = document.getElementById("winMessage");
+    winMessage.textContent = "Player WINS!";
+    let score = document.getElementById("playerScore");
+    score.textContent ++;
+}
+
+const cpuWin = () => {
+    const winMessage = document.getElementById("winMessage");
+    winMessage.textContent = "CPU WINS!";
+    let score = document.getElementById("cpuScore");
+    score.textContent ++;
 }
 
 const resetGame = () => {
@@ -93,6 +138,7 @@ const resetGame = () => {
     cell.forEach(element => {
         element.textContent = "";
     })
+    gameFlow();  //fix bug where game doesn't respect original turn order after reset
 }
 
 /*const listeners = () => {
