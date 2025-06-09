@@ -10,6 +10,7 @@ const combinations = [
 ];
 
 const cell = document.querySelectorAll(".cell");
+const turnIndicator = document.getElementById("player_turn_indicator");
 let isPlayerTurn;
 let playerSymbol = "";
 let cpuSymbol = "";
@@ -34,12 +35,19 @@ const playerOrder = () => {
             let cpu;
             if (element.textContent === "Go first") {
                 player = 1;
+                turnIndicator.textContent = "Player's turn";
                 //cpu = 2;
             } else if (element.textContent === "Go second") {
                 player = 2;
+                turnIndicator.textContent = "CPU's turn";
                 //cpu = 1;
             } else {
                 player = Math.floor(Math.random() * (2 - 0) + 1);
+                if (player === 1) {
+                    turnIndicator.textContent = "Player's turn";
+                } else {
+                    turnIndicator.textContent = "CPU's turn";
+                }
                 //cpu = player > 1 ? 1 : 2;
             }
             resolved (player);
@@ -49,10 +57,12 @@ const playerOrder = () => {
 }
 
 
-const gameFlow = () => {
+const gameFlow = () => {  //fix bug where, after few games won as first player (maybe even as second or random), player's first move is immediatly made (same move as last move in previous game)
+    console.log(turnOrder);
     isPlayerTurn = turnOrder === 1 ? true : false;
     playerSymbol = turnOrder === 1 ? "X" : "O";
     cpuSymbol = turnOrder === 2 ? "X" : "O";
+    console.log(isPlayerTurn);
     if (!isPlayerTurn){
             setTimeout (
                 cpuTurn, 500
@@ -64,12 +74,12 @@ const gameFlow = () => {
         function handleClick(event) {
             if (element.textContent === "" && isPlayerTurn) {
                     element.textContent = playerSymbol;
-                    checkWin();
-                    isPlayerTurn = false;
-                    setTimeout (
-                        cpuTurn, 1000
-                    )
-            } else {  
+                    if (checkWin()) return;  //even if a winner is found and resetGame() runs, the code still executes in it's entirety becaus JS is a single threaded language
+                        isPlayerTurn = false;
+                        setTimeout (
+                            cpuTurn, 1000
+                        )                   
+            } else {
                 return;  //return here only exits out of that single click, it doesn't exit outside of the entire gameFlow function
             }  
         }
@@ -87,12 +97,12 @@ const cpuTurn = () => {
         const chosenCell = emptyCells[randomIndex];
         chosenCell.textContent = cpuSymbol;
         checkWin();
-        isPlayerTurn = true;
+        isPlayerTurn = true;   
     }
 }
 
 const checkWin = () => {
-    return combinations.some(([a, b, c]) => {  //Array.some instances tests whether at least one of its elements passes a test implemented by the function
+    const winFound = combinations.some(([a, b, c]) => {  //Array.some instances tests whether at least one of its elements passes a test implemented by the function
         if (cell[a].textContent === "X" &&
             cell[b].textContent === "X" &&
             cell[c].textContent === "X") {
@@ -108,15 +118,22 @@ const checkWin = () => {
             cell[b].textContent === "O" &&
             cell[c].textContent === "O") {
                 if (isPlayerTurn) {
+                    indicatorToggle();
                     playerWin();
                 } else {
+                    indicatorToggle();
                     cpuWin();
                 }
                 resetGame();
                 return true;  //returns true if it finds the element
             }
+    
         return false;  //returns false if it doesn't
     })
+    if (!winFound) {  //fix bug where stalemates change the winner indicator
+        indicatorToggle();
+    }
+    return winFound;
 }
 
 const playerWin = () => {
@@ -139,6 +156,14 @@ const resetGame = () => {
         element.textContent = "";
     })
     gameFlow();  //fix bug where game doesn't respect original turn order after reset
+}
+
+const indicatorToggle = () => {  //fix this, works from console but is not called correctly after checkWin
+    if (turnIndicator.textContent === "Player's turn") {
+        turnIndicator.textContent = "CPU's turn";
+    } else {
+        turnIndicator.textContent = "Player's turn";
+    }
 }
 
 /*const listeners = () => {
